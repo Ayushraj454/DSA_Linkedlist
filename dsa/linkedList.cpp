@@ -28,6 +28,7 @@ class LinkedList {
 
         if (head == NULL) {
             head = new_node;
+            length++;
             return;
         }
 
@@ -51,15 +52,17 @@ class LinkedList {
         newNode-> next = curr-> next;
         if (index == 0) {
             head = newNode;
-        } else {
+            length++;
+        } else if (index > 0) {
             curr->next = newNode;
+            length++;
         }
-        length++;
+        
     }
 
     void appendLeft(int data) {
         insert(0, data);
-        length++;
+        
     }
 
     void remove(int data) {
@@ -70,23 +73,20 @@ class LinkedList {
         {
             if (tmp-> next-> data == data) {
                 tmp-> next = tmp->next->next;
+                length--;
                 break;
             }
             tmp = tmp->next;
         }
-        length--;
+        
     }
 
-    bool empty(Node* head) {
-        if (head != nullptr) {
-            cout << "1";
-        } else {
-            cout << "0";
-        }
+    bool empty() {
+        return head == nullptr;
     }
 
     int size() {
-        cout << " " << length;
+        return length;
     }
 
     bool exists(int value) {
@@ -112,9 +112,28 @@ class LinkedList {
             current = current-> next;
             currentIndex++;
         }
+        return -1;
+    }
+
+    void reverse()
+    {
+        Node* prev = nullptr;
+        Node* current = head;
+        Node* next = nullptr;
+
+        while(current != nullptr)
+        {
+            next = current-> next;
+            current-> next = prev;
+            prev = current;
+            current = next;
+            head = prev;
+
+        }
     }
 
     void print() {
+        cout<<"length:  "<<length <<"\t";
         Node* node = head;
         while (node != NULL) {
             cout << node-> data << " => ";
@@ -146,17 +165,23 @@ int main() {
     list.remove(9);
     list.print();
 
-    list.empty(head);
+    cout<<"empty : "<<list.empty();
 
     cout << endl;
 
-    list.size();
+    cout<<list.size();
 
     cout << endl;
 
     cout << " " << list.exists(4) << endl;
 
     cout << " " << list.get(1);
+
+    cout<<endl;
+
+    list.reverse();
+
+    list.print();
 
     return 0;
 }
